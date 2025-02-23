@@ -1,7 +1,7 @@
 # syntax=docker.io/docker/dockerfile:1
 
 # Base image: Using Node.js 22 with Alpine Linux for a minimal footprint
-FROM node:22-alpine AS base
+FROM node:20-alpine AS base
 
 # Stage 1: Dependencies
 # This stage is responsible for installing all npm dependencies
