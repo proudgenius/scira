@@ -28,7 +28,7 @@ COPY . .
 # Copy environment variables for build configuration
 COPY .env .env
 # Build the Next.js application
-RUN npm run build
+RUN pnpm run build
 
 # Stage 3: Production runtime
 # Final stage that runs the application
