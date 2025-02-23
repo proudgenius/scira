@@ -3,12 +3,21 @@
 FROM node:20-alpine AS base
 
 FROM base AS deps
-RUN apk add --no-cache libc6-compat
+# Add comprehensive build dependencies
+RUN apk add --no-cache \
+    libc6-compat \
+    python3 \
+    make \
+    g++ \
+    git \
+    openssh \
+    build-base
+
 WORKDIR /app
 
-# Switch to using npm
+# Install with verbose logging to see what's failing
 COPY package.json ./
-RUN npm install
+RUN npm install --verbose
 
 FROM base AS builder
 WORKDIR /app
