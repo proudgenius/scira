@@ -1,23 +1,21 @@
 # syntax=docker.io/docker/dockerfile:1
 
 FROM node:20-alpine AS base
-RUN npm install -g pnpm
 
 FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml* ./
-# Make pnpm more verbose during install
-RUN pnpm install --debug
+# Switch to using npm
+COPY package.json ./
+RUN npm install
 
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 COPY .env .env
-# Make the build more verbose
-RUN set -x && pnpm build --debug
+RUN npm run build
 
 FROM base AS runner
 LABEL org.opencontainers.image.name="scira.app"
